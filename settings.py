@@ -19,21 +19,25 @@ GREY = (170, 170, 170)
 # player properties
 WALKRATE = 3 # how many pixels to move while walking per frame
 ANIMRATE = 0.15 # how many seconds each frame of player's walking animation lasts
-#HEROSPRITE = pygame.image.load("player.png")
-
-"""
-for animated movement (eventually)
-
-down1 = pygame.image.load('player_down1.png')
-down2 = pygame.image.load('player_down2.png')
-up1   = pygame.image.load('player_up1.png')
-up2   = pygame.image.load('player_up2.png')
-left1 = pygame.image.load('player_left1.png')
-left2 = pygame.image.load('player_left2.png')
-"""
+HEROSPRITEDOWN = pygame.image.load("player_down.png")
+HEROSPRITEUP = pygame.image.load("player_up.png") 
+HEROSPRITELEFT = pygame.image.load("player_left.png")
+HEROSPRITERIGHT = pygame.image.load("player_right.png")
+CURHEROSPRITE = HEROSPRITEDOWN
+#PLAYERSPRITESHEET = pygame.image.load("player_sprite_sheet.png")
 
 # tile properties
-TILESIZE = 32
+TILESIZE = 32 
 GRIDWIDTH = WIDTH / TILESIZE
 GRIDHEIGHT = HEIGHT / TILESIZE
 
+# mountain tiles
+MOUNTAIN1 = pygame.image.load("mountain1.png")
+MOUNTAIN2 = pygame.image.load("mountain2.png")
+MOUNTAIN3 = pygame.image.load("mountain3.png")
+MOUNTAIN4 = pygame.image.load("mountain4.png")
+
+# grass tiles
+GRASS1 = pygame.image.load("grass1.png")
+GRASS2 = pygame.image.load("grass2.png")
+GRASS3 = pygame.image.load("grass3.png")

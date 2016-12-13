@@ -1,5 +1,6 @@
 # Sprite classes
 import pygame
+import random
 from settings import *
 
 class Player(pygame.sprite.Sprite):
@@ -8,8 +9,7 @@ class Player(pygame.sprite.Sprite):
 		self.groups = game.all_sprites
 		pygame.sprite.Sprite.__init__(self, self.groups)
 		self.game = game
-		self.image = pygame.Surface((TILESIZE, TILESIZE))
-		self.image.fill(YELLOW)
+		self.image = pygame.Surface((28, 28))
 		self.rect = self.image.get_rect()
 		self.speed_x = 0
 		self.speed_y = 0
@@ -17,16 +17,14 @@ class Player(pygame.sprite.Sprite):
 		self.y = y
 		self.rect.x = x * TILESIZE
 		self.rect.y = y * TILESIZE
-		self.move_left = self.move_right = self.move_up = self.move_down = False
 
 	def move(self, movex, movey):
 		self.speed_x = movex
 		self.speed_y = movey
 
 	def collision_with_walls(self):
-		hits = pygame.sprite.spritecollide(self.game.player, self.game.walls, False)
-		if hits:
-			for wall in self.game.walls:
+		for wall in self.game.walls:
+			if pygame.sprite.collide_rect(self.game.player, wall):
 				if self.speed_x > 0:
 					print("right")
 					self.rect.right = wall.rect.left
@@ -40,7 +38,6 @@ class Player(pygame.sprite.Sprite):
 					print("up")
 					self.rect.top = wall.rect.bottom
 
-
 	def update(self):
 		# update player movement
 		self.rect.x += self.speed_x
@@ -48,19 +45,61 @@ class Player(pygame.sprite.Sprite):
 
 		self.collision_with_walls()
 
+		if self.rect.x < 0:
+			#switchroom on levellist x axis (-1)
+			#self.game.draw_map()
+			self.rect.x = WIDTH - TILESIZE
+		elif self.rect.x > WIDTH - TILESIZE:
+			#switchroom on levellist x axis (+1)
+			#self.game.draw_map()
+			self.rect.x = 0		
+		elif self.rect.y < 0:
+			#switchroom on levellist y axis (-1)
+			#self.game.draw_map()
+			self.rect.y = HEIGHT - TILESIZE
+		elif self.rect.y > HEIGHT - TILESIZE:
+			#switchroom on levellist y axis (+1)
+			#self.game.draw_map()
+			self.rect.y = 0
+
 		self.speed_x = 0
 		self.speed_y = 0
 
 class Mountain(pygame.sprite.Sprite):
-    def __init__(self, game, x, y):
-        self.groups = game.all_sprites, game.walls
-        pygame.sprite.Sprite.__init__(self, self.groups)
-        self.game = game
-        self.image = pygame.Surface((TILESIZE, TILESIZE))
-        self.image.fill(BROWN)
-        self.rect = self.image.get_rect()
-        self.x = x
-        self.y = y
-        self.rect.x = x * TILESIZE
-        self.rect.y = y * TILESIZE
+	def __init__(self, game, x, y):
+		self.groups = game.all_sprites, game.walls
+		pygame.sprite.Sprite.__init__(self, self.groups)
+		self.game = game
+		self.mountain_var = random.randint(1, 4)
+		if self.mountain_var == 1:
+			self.image = MOUNTAIN1
+		elif self.mountain_var == 2:
+			self.image = MOUNTAIN2
+		elif self.mountain_var == 3:
+			self.image = MOUNTAIN3
+		elif self.mountain_var == 4:
+			self.image = MOUNTAIN4
 
+		self.rect = self.image.get_rect()
+		self.x = x
+		self.y = y
+		self.rect.x = x * TILESIZE
+		self.rect.y = y * TILESIZE
+
+class Grass(pygame.sprite.Sprite):
+	def __init__(self, game, x, y):
+		self.groups = game.background_sprites
+		pygame.sprite.Sprite.__init__(self, self.groups)
+		self.game = game
+		self.grass_var = random.randint(1, 10)
+		if self.grass_var == 1:
+			self.image = GRASS1
+		elif self.grass_var == 2:
+			self.image = GRASS2
+		elif self.grass_var >= 3:
+			self.image = GRASS3
+		self.rect = self.image.get_rect()
+		self.x = x
+		self.y = y
+		self.rect.x = x * TILESIZE
+		self.rect.y = y * TILESIZE

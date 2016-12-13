@@ -21,13 +21,17 @@ class Game:
 		self.running = True
 		self.load_data()
 		pygame.key.set_repeat(1, 10)
+		self.cur_hero_img = HEROSPRITEDOWN
+		self.onlyStartOnce = False
 
 	def load_data(self):
+
 		game_folder = path.dirname(__file__)
 		self.map_data = []
 		with open(path.join(game_folder, 'map.txt'), 'rt') as f:
 			for line in f:
 				self.map_data.append(line)
+
 
 	def quit(self):
 		pygame.quit()
@@ -37,17 +41,23 @@ class Game:
 		# Initialize the Game
 		self.all_sprites = pygame.sprite.Group()
 		self.walls = pygame.sprite.Group()
+		self.background_sprites = pygame.sprite.Group()	
 		self.draw_map()
 		self.run()
 
 	def draw_map(self):
+
 		# draw the map from map.txt
 		for row, tiles in enumerate(self.map_data):
 			for col, tile in enumerate(tiles):
+				if tile == '.':
+					Grass(self, col, row)
 				if tile == '1':
 					Mountain(self, col, row)
 				if tile == 'S':
+					Grass(self, col, row)
 					self.player = Player(self, col, row)
+
 
 	def run(self):
 		# Game Loop
@@ -68,12 +78,16 @@ class Game:
 					self.quit()
 				if event.key == pygame.K_LEFT:
 					self.player.move(-WALKRATE, 0)
-				elif event.key == pygame.K_RIGHT:
+					self.cur_hero_img = HEROSPRITELEFT
+				if event.key == pygame.K_RIGHT:
 					self.player.move(WALKRATE, 0)
-				elif event.key == pygame.K_UP:
+					self.cur_hero_img = HEROSPRITERIGHT
+				if event.key == pygame.K_UP:
 					self.player.move(0, -WALKRATE)
-				elif event.key == pygame.K_DOWN:
+					self.cur_hero_img = HEROSPRITEUP
+				if event.key == pygame.K_DOWN:
 					self.player.move(0, WALKRATE)
+					self.cur_hero_img = HEROSPRITEDOWN
 				
 
 	def update(self):
@@ -83,8 +97,10 @@ class Game:
 	def draw(self):
 		# Game Loop - Draw
 		self.screen.fill(BLACK)
+		self.background_sprites.draw(self.screen)
 		#self.draw_grid()
 		self.all_sprites.draw(self.screen)
+		self.screen.blit(self.cur_hero_img, (self.player.rect.x, self.player.rect.y))
 
 		pygame.display.update()
 
