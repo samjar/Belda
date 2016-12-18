@@ -26,6 +26,9 @@ HEROSPRITERIGHT = pygame.image.load("player_right.png")
 CURHEROSPRITE = HEROSPRITEDOWN
 #PLAYERSPRITESHEET = pygame.image.load("player_sprite_sheet.png")
 
+# map properties
+XMAPLENGTH = 10
+
 # tile properties
 TILESIZE = 32 
 GRIDWIDTH = WIDTH / TILESIZE

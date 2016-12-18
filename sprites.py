@@ -48,19 +48,22 @@ class Player(pygame.sprite.Sprite):
 		if self.rect.x < 0:
 			#switchroom on levellist x axis (-1)
 			#self.game.draw_map()
+			self.current_room -= 1
 			self.rect.x = WIDTH - TILESIZE
 		elif self.rect.x > WIDTH - TILESIZE:
 			#switchroom on levellist x axis (+1)
 			#self.game.draw_map()
+			self.current_room += 1
 			self.rect.x = 0		
 		elif self.rect.y < 0:
 			#switchroom on levellist y axis (-1)
 			#self.game.draw_map()
+			self.current_room -= XMAPLENGTH
 			self.rect.y = HEIGHT - TILESIZE
 		elif self.rect.y > HEIGHT - TILESIZE:
 			#switchroom on levellist y axis (+1)
 			#self.game.draw_map()
-			self.rect.y = 0
+			self.current_room += XMAPLENGTH
 
 		self.speed_x = 0
 		self.speed_y = 0

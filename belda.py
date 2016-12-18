@@ -71,8 +71,8 @@ class Game:
 				if col == 'S':
 					Grass(self, x, y)
 					self.player = Player(self, x, y)
-				x += 32
-			y += 32
+				x += 1
+			y += 1
 			x = 0
 
 	def run(self):
