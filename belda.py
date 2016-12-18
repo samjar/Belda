@@ -7,6 +7,7 @@ import os
 from os import path
 from sprites import *
 from settings import *
+from beldarooms import BeldaRoomClass
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
@@ -19,19 +20,28 @@ class Game:
 		pygame.display.set_caption(TITLE)
 		self.clock = pygame.time.Clock()
 		self.running = True
-		self.load_data()
+		#self.load_data()
 		pygame.key.set_repeat(1, 10)
 		self.cur_hero_img = HEROSPRITEDOWN
-		self.onlyStartOnce = False
+		beldaRooms = BeldaRoomClass()
+		self.current_room = beldaRooms.current_room
+		self.room = beldaRooms.room_list(self.current_room)
+
+		"""
 
 	def load_data(self):
 
 		game_folder = path.dirname(__file__)
 		self.map_data = []
+
 		with open(path.join(game_folder, 'map.txt'), 'rt') as f:
 			for line in f:
+				if line == ",":
+					print("Baloon")
+					self.roomID += 1
 				self.map_data.append(line)
 
+		"""
 
 	def quit(self):
 		pygame.quit()
@@ -41,23 +51,31 @@ class Game:
 		# Initialize the Game
 		self.all_sprites = pygame.sprite.Group()
 		self.walls = pygame.sprite.Group()
-		self.background_sprites = pygame.sprite.Group()	
+		self.background_sprites = pygame.sprite.Group()
 		self.draw_map()
 		self.run()
+		#self.current_room = 0
 
 	def draw_map(self):
 
+		x = y = 0
+
+		self.current_room = beldaRooms.current_room
+		self.room = beldaRooms.room_list[self.current_room]
+
 		# draw the map from map.txt
-		for row, tiles in enumerate(self.map_data):
-			for col, tile in enumerate(tiles):
-				if tile == '.':
+		for row in self.room:
+			for col in row:
+				if col == '.':
 					Grass(self, col, row)
-				if tile == '1':
+				if col == '1':
 					Mountain(self, col, row)
-				if tile == 'S':
+				if col == 'S':
 					Grass(self, col, row)
 					self.player = Player(self, col, row)
-
+				x += TILESIZE
+		y += TILESIZE
+		x = 0
 
 	def run(self):
 		# Game Loop
@@ -88,17 +106,16 @@ class Game:
 				if event.key == pygame.K_DOWN:
 					self.player.move(0, WALKRATE)
 					self.cur_hero_img = HEROSPRITEDOWN
-				
 
 	def update(self):
 		# Game Loop - Update
 		self.all_sprites.update()
-		
+
 	def draw(self):
 		# Game Loop - Draw
 		self.screen.fill(BLACK)
 		self.background_sprites.draw(self.screen)
-		#self.draw_grid()
+		# self.draw_grid()
 		self.all_sprites.draw(self.screen)
 		self.screen.blit(self.cur_hero_img, (self.player.rect.x, self.player.rect.y))
 
@@ -129,4 +146,4 @@ while g.running:
 	g.new()
 	# goes to Game Over screen if playing = False
 	g.game_over_screen()
-	# after Game Over screen, it goes back to new (unless running = False)
+# after Game Over screen, it goes back to new (unless running = False)

@@ -1,4 +1,4 @@
-class BeldaRooms:
+class BeldaRoomClass:
 
 	def __init__(self):
 		self.current_room = 0
