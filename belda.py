@@ -20,26 +20,9 @@ class Game:
 		pygame.display.set_caption(TITLE)
 		self.clock = pygame.time.Clock()
 		self.running = True
-		#self.load_data()
 		pygame.key.set_repeat(1, 10)
 		self.cur_hero_img = HEROSPRITEDOWN
 		self.beldaRooms = BeldaRoomClass()
-
-		"""
-
-	def load_data(self):
-
-		game_folder = path.dirname(__file__)
-		self.map_data = []
-
-		with open(path.join(game_folder, 'map.txt'), 'rt') as f:
-			for line in f:
-				if line == ",":
-					print("Baloon")
-					self.roomID += 1
-				self.map_data.append(line)
-
-		"""
 
 	def quit(self):
 		pygame.quit()

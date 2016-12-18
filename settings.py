@@ -17,7 +17,7 @@ BROWN = (139, 69, 19)
 GREY = (170, 170, 170)
 
 # player properties
-WALKRATE = 3 # how many pixels to move while walking per frame
+WALKRATE = 8 # how many pixels to move while walking per frame
 ANIMRATE = 0.15 # how many seconds each frame of player's walking animation lasts
 HEROSPRITEDOWN = pygame.image.load("player_down.png")
 HEROSPRITEUP = pygame.image.load("player_up.png") 

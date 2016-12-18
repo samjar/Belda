@@ -2,6 +2,7 @@
 import pygame
 import random
 from settings import *
+from beldarooms import *
 
 class Player(pygame.sprite.Sprite):
 	def __init__(self, game, x, y):
@@ -10,6 +11,7 @@ class Player(pygame.sprite.Sprite):
 		pygame.sprite.Sprite.__init__(self, self.groups)
 		self.game = game
 		self.image = pygame.Surface((28, 28))
+		self.image = self.image.convert()
 		self.rect = self.image.get_rect()
 		self.speed_x = 0
 		self.speed_y = 0
@@ -17,6 +19,10 @@ class Player(pygame.sprite.Sprite):
 		self.y = y
 		self.rect.x = x * TILESIZE
 		self.rect.y = y * TILESIZE
+		
+		self.blabla = BeldaRoomClass()
+		self.current_room = self.blabla.current_room
+		self.nextRoom = False
 
 	def move(self, movex, movey):
 		self.speed_x = movex
@@ -49,21 +55,30 @@ class Player(pygame.sprite.Sprite):
 			#switchroom on levellist x axis (-1)
 			#self.game.draw_map()
 			self.current_room -= 1
+			self.nextRoom = True
 			self.rect.x = WIDTH - TILESIZE
 		elif self.rect.x > WIDTH - TILESIZE:
 			#switchroom on levellist x axis (+1)
 			#self.game.draw_map()
 			self.current_room += 1
+			self.nextRoom = True
 			self.rect.x = 0		
 		elif self.rect.y < 0:
 			#switchroom on levellist y axis (-1)
 			#self.game.draw_map()
 			self.current_room -= XMAPLENGTH
+			self.nextRoom = True
 			self.rect.y = HEIGHT - TILESIZE
 		elif self.rect.y > HEIGHT - TILESIZE:
 			#switchroom on levellist y axis (+1)
 			#self.game.draw_map()
 			self.current_room += XMAPLENGTH
+			self.nextRoom = True
+
+		if self.nextRoom == True:
+			#all_sprites.empty()
+			self.game.draw_map()
+			self.nextRoom = False
 
 		self.speed_x = 0
 		self.speed_y = 0
