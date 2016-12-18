@@ -10,8 +10,7 @@ class Player(pygame.sprite.Sprite):
 		self.groups = game.all_sprites
 		pygame.sprite.Sprite.__init__(self, self.groups)
 		self.game = game
-		self.image = pygame.Surface((28, 28))
-		self.image = self.image.convert()
+		self.image = pygame.Surface((28, 28), pygame.SRCALPHA)
 		self.rect = self.image.get_rect()
 		self.speed_x = 0
 		self.speed_y = 0
@@ -19,7 +18,7 @@ class Player(pygame.sprite.Sprite):
 		self.y = y
 		self.rect.x = x * TILESIZE
 		self.rect.y = y * TILESIZE
-		
+
 		self.blabla = BeldaRoomClass()
 		self.current_room = self.blabla.current_room
 		self.nextRoom = False
