@@ -23,9 +23,7 @@ class Game:
 		#self.load_data()
 		pygame.key.set_repeat(1, 10)
 		self.cur_hero_img = HEROSPRITEDOWN
-		beldaRooms = BeldaRoomClass()
-		self.current_room = beldaRooms.current_room
-		self.room = beldaRooms.room_list(self.current_room)
+		self.beldaRooms = BeldaRoomClass()
 
 		"""
 
@@ -60,22 +58,22 @@ class Game:
 
 		x = y = 0
 
-		self.current_room = beldaRooms.current_room
-		self.room = beldaRooms.room_list[self.current_room]
+		self.current_room = self.beldaRooms.current_room
+		self.room = self.beldaRooms.room_list[self.current_room]
 
 		# draw the map from map.txt
 		for row in self.room:
 			for col in row:
 				if col == '.':
-					Grass(self, col, row)
+					Grass(self, x, y)
 				if col == '1':
-					Mountain(self, col, row)
+					Mountain(self, x, y)
 				if col == 'S':
-					Grass(self, col, row)
-					self.player = Player(self, col, row)
-				x += TILESIZE
-		y += TILESIZE
-		x = 0
+					Grass(self, x, y)
+					self.player = Player(self, x, y)
+				x += 32
+			y += 32
+			x = 0
 
 	def run(self):
 		# Game Loop
