@@ -7,7 +7,8 @@ import os
 from os import path
 from sprites import *
 from settings import *
-from beldarooms import BeldaRoomClass
+from beldarooms import *
+from mainmenu import *
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
@@ -27,6 +28,9 @@ class Game:
 	def quit(self):
 		pygame.quit()
 		sys.exit()
+
+	def load_game(self):
+		pass
 
 	def new(self):
 		# Initialize the Game
@@ -110,7 +114,11 @@ class Game:
 			pygame.draw.line(self.screen, GREY, (0, y), (WIDTH, y))
 
 	def start_screen(self):
-		pass
+		funcs = {'New Game': self.new,
+				 'Load Game': self.load_game,
+				 'Quit': self.quit}
+		mm = MainMenu(self.screen, funcs.keys(), funcs)
+		mm.menu_run()
 
 	def game_over_screen(self):
 		pass
@@ -118,13 +126,7 @@ class Game:
 
 g = Game()
 
-# start/menu screen for whenever we make one
-g.start_screen()
-
-# after start screen, goes into the while loop
 while g.running:
-	# starts a new game
-	g.new()
-	# goes to Game Over screen if playing = False
+	g.start_screen()
 	g.game_over_screen()
-# after Game Over screen, it goes back to new (unless running = False)
+# after Game Over screen, it goes back to start_screen (unless running = False)
