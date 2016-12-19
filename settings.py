@@ -44,3 +44,7 @@ MOUNTAIN4 = pygame.image.load("mountain4.png")
 GRASS1 = pygame.image.load("grass1.png")
 GRASS2 = pygame.image.load("grass2.png")
 GRASS3 = pygame.image.load("grass3.png")
+
+# background & pictures
+MENUBACKGROUND = pygame.image.load("menubackground.png")
+

@@ -17,6 +17,9 @@ class Game:
 		# initialize the program - not the game
 		pygame.init()
 		pygame.mixer.pre_init(44100, -16, 1, 512)
+		pygame.mixer.music.load("Come_and_Find_Me.ogg")
+		pygame.mixer.music.set_volume(0.5)
+		pygame.mixer.music.play(1)
 		self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
 		pygame.display.set_caption(TITLE)
 		self.clock = pygame.time.Clock()
@@ -34,6 +37,8 @@ class Game:
 
 	def new(self):
 		# Initialize the Game
+		pygame.mixer.music.stop()
+		pygame.mixer
 		self.all_sprites = pygame.sprite.Group()
 		self.walls = pygame.sprite.Group()
 		self.background_sprites = pygame.sprite.Group()
@@ -123,10 +128,10 @@ class Game:
 	def game_over_screen(self):
 		pass
 
-
 g = Game()
 
 while g.running:
 	g.start_screen()
 	g.game_over_screen()
 # after Game Over screen, it goes back to start_screen (unless running = False)
+

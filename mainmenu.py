@@ -107,6 +107,7 @@ class MainMenu():
 		pygame.draw.line(self.screen, WHITE, (200, 200), (200, 500))
 		pygame.draw.line(self.screen, WHITE, (815, 200), (815, 500))
 		pygame.draw.line(self.screen, WHITE, (200, 500), (815, 500))
+		self.screen.blit(MENUBACKGROUND, (0, 0))
 
 	def menu_run(self):
 		running = True
