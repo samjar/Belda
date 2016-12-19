@@ -5,7 +5,7 @@ import time
 from settings import *
 
 class MenuItem(pygame.font.Font):
-	def __init__(self, text, font=None, font_size=50, font_color=WHITE, (pos_x, pos_y)=(0, 0)):
+	def __init__(self, text, font="slkscr.ttf", font_size=50, font_color=WHITE, (pos_x, pos_y)=(0, 0)):
 
 		pygame.font.Font.__init__(self, font, font_size)
 		self.text = text
@@ -35,7 +35,7 @@ class MenuItem(pygame.font.Font):
 
 
 class MainMenu():
-	def __init__(self, screen, items, funcs, bg_color=BLACK, font=None, font_size=50,
+	def __init__(self, screen, items, funcs, bg_color=BLACK, font="slkscr.ttf", font_size=40,
 				 font_color=WHITE):
 		self.screen = screen
 		self.screen_width = self.screen.get_rect().width
@@ -104,6 +104,9 @@ class MainMenu():
 
 	def create_frame(self):
 		pygame.draw.line(self.screen, WHITE, (200, 200), (815, 200))
+		pygame.draw.line(self.screen, WHITE, (200, 200), (200, 500))
+		pygame.draw.line(self.screen, WHITE, (815, 200), (815, 500))
+		pygame.draw.line(self.screen, WHITE, (200, 500), (815, 500))
 
 	def menu_run(self):
 		running = True
@@ -159,7 +162,7 @@ if (__name__ == "__main__"):
 	pygame.display.set_caption(TITLE)
 
 	funcs = {'New Game': new,
-			 'Load Game': load_game,
+			 'Load': load_game,
 			 'Quit': quit}
 	mm = MainMenu(screen, funcs.keys(), funcs)
 	mm.menu_run() 

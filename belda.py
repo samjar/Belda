@@ -115,7 +115,7 @@ class Game:
 
 	def start_screen(self):
 		funcs = {'New Game': self.new,
-				 'Load Game': self.load_game,
+				 'Load': self.load_game,
 				 'Quit': self.quit}
 		mm = MainMenu(self.screen, funcs.keys(), funcs)
 		mm.menu_run()
