@@ -24,7 +24,7 @@ class Game:
 		pygame.display.set_caption(TITLE)
 		self.clock = pygame.time.Clock()
 		self.running = True
-		pygame.key.set_repeat(1, 10)
+		pygame.key.set_repeat(1, 150)
 		self.cur_hero_img = HEROSPRITEDOWN
 		self.beldaRooms = BeldaRoomClass()
 
@@ -121,11 +121,15 @@ class Game:
 	def start_screen(self):
 		funcs = {'New Game': self.new,
 				 'Load': self.load_game,
+				 'Options': self.options,
 				 'Quit': self.quit}
 		mm = MainMenu(self.screen, funcs.keys(), funcs)
 		mm.menu_run()
 
 	def game_over_screen(self):
+		pass
+
+	def options(self):
 		pass
 
 g = Game()

@@ -48,3 +48,6 @@ GRASS3 = pygame.image.load("grass3.png")
 # background & pictures
 MENUBACKGROUND = pygame.image.load("menubackground.png")
 
+# items, icons and cursors
+SWORDCURSOR = pygame.image.load("sword_cursor.png")
+

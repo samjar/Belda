@@ -46,11 +46,15 @@ class MainMenu():
 
 		self.funcs = funcs
 		self.items = []
+		self.centeredText = False
 		for index, item in enumerate(items):
 			menu_item = MenuItem(item, font, font_size, font_color)
 
 			t_h = len(items) * menu_item.height
-			pos_x = (self.screen_width / 2) - (menu_item.width / 2)
+			if self.centeredText is True:
+				pos_x = (self.screen_width / 2) - (menu_item.width / 2)
+			else:
+				pos_x = (self.screen_width / 2) - 50
 			pos_y = (self.screen_height / 2) - (t_h / 2) + ((index*2) + index * menu_item.height)
 
 			menu_item.set_position(pos_x, pos_y)
@@ -102,17 +106,21 @@ class MainMenu():
 			item.set_italic(False)
 			item.set_font_color(WHITE)
 
-	def create_frame(self):
-		pygame.draw.line(self.screen, WHITE, (200, 200), (815, 200))
-		pygame.draw.line(self.screen, WHITE, (200, 200), (200, 500))
-		pygame.draw.line(self.screen, WHITE, (815, 200), (815, 500))
-		pygame.draw.line(self.screen, WHITE, (200, 500), (815, 500))
-		self.screen.blit(MENUBACKGROUND, (0, 0))
+	def sword_cursor(self):
+		""" because I suck at math, this sword_cursor currently only works with 4 menu items """
+		if self.cur_item == 0:
+			self.screen.blit(SWORDCURSOR, (self.screen_width / 2 - 200, 258))
+		elif self.cur_item == 1:
+			self.screen.blit(SWORDCURSOR, (self.screen_width / 2 - 200, 301))
+		elif self.cur_item == 2:
+			self.screen.blit(SWORDCURSOR, (self.screen_width / 2 - 200, 301 + 44))
+		elif self.cur_item == 3:
+			self.screen.blit(SWORDCURSOR, (self.screen_width / 2 - 200, 301 + 87))
 
 	def menu_run(self):
 		running = True
 		while running:
-			self.clock.tick(30)
+			self.clock.tick(20)
 			mpos = pygame.mouse.get_pos()
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
@@ -133,7 +141,9 @@ class MainMenu():
 			self.set_mouse_visibility()
 
 			self.screen.fill(self.bg_color)
-			self.create_frame()
+			self.screen.blit(MENUBACKGROUND, (0, 0))
+			if self.centeredText is False:
+				self.sword_cursor()
 
 			for item in self.items:
 				if self.mouse_is_visible:
@@ -156,6 +166,9 @@ if (__name__ == "__main__"):
 	def quit():
 		sys.exit()
 
+	def options():
+		pass
+
 	os.environ['SDL_VIDEO_CENTERED'] = '1'
 		
 	pygame.init()
@@ -164,6 +177,7 @@ if (__name__ == "__main__"):
 
 	funcs = {'New Game': new,
 			 'Load': load_game,
+			 'Options': options,
 			 'Quit': quit}
 	mm = MainMenu(screen, funcs.keys(), funcs)
 	mm.menu_run() 
