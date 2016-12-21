@@ -18,11 +18,15 @@ class MenuItem(pygame.font.Font):
 		self.pos_y = pos_y
 		self.position = pos_x, pos_y
 
+	"""
+
 	def is_mouse_selection(self, (posx, posy)):
 		if (posx >= self.pos_x and posx <= self.pos_x + self.width) and \
 			(posy >= self.pos_y and posy <= self.pos_y + self.height):
 				return True
 		return False
+
+	"""
 
 	def set_position(self, x, y):
 		self.position = (x, y)
@@ -47,49 +51,52 @@ class MainMenu():
 		self.funcs = funcs
 		self.items = []
 		self.centeredText = False
+		self.t_h = 0
 		for index, item in enumerate(items):
 			menu_item = MenuItem(item, font, font_size, font_color)
 
-			t_h = len(items) * menu_item.height
+			self.t_h = len(items) * menu_item.height
 			if self.centeredText is True:
 				pos_x = (self.screen_width / 2) - (menu_item.width / 2)
 			else:
 				pos_x = (self.screen_width / 2) - 50
-			pos_y = (self.screen_height / 2) - (t_h / 2) + ((index*2) + index * menu_item.height)
+			pos_y = (self.screen_height / 2) - (self.t_h / 2) + (index * menu_item.height)
 
 			menu_item.set_position(pos_x, pos_y)
 			self.items.append(menu_item)
 
-		self.mouse_is_visible = True
-		self.cur_item = None
+		#self.mouse_is_visible = True
+		self.cur_item = 0
+		self.items[self.cur_item].set_italic(True)
+		self.items[self.cur_item].set_font_color(RED)
 
+
+	"""
 	def set_mouse_visibility(self):
 		if self.mouse_is_visible == True:
 			pygame.mouse.set_visible(True)
 		else:
 			pygame.mouse.set_visible(False)
+	"""
 
 	def set_keyboard_selection(self, key):
 		for item in self.items:
 			item.set_italic(False)
 			item.set_font_color(WHITE)
 
-		if self.cur_item is None:
+		# Find the chosen item
+		if key == pygame.K_UP and \
+				self.cur_item > 0:
+			self.cur_item -= 1
+		elif key == pygame.K_UP and \
+				self.cur_item == 0:
+			self.cur_item = len(self.items) - 1
+		elif key == pygame.K_DOWN and \
+				self.cur_item < len(self.items) - 1:
+			self.cur_item += 1
+		elif key == pygame.K_DOWN and \
+				self.cur_item == len(self.items) - 1:
 			self.cur_item = 0
-		else:
-			# Find the chosen item
-			if key == pygame.K_UP and \
-					self.cur_item > 0:
-				self.cur_item -= 1
-			elif key == pygame.K_UP and \
-					self.cur_item == 0:
-				self.cur_item = len(self.items) - 1
-			elif key == pygame.K_DOWN and \
-					self.cur_item < len(self.items) - 1:
-				self.cur_item += 1
-			elif key == pygame.K_DOWN and \
-					self.cur_item == len(self.items) - 1:
-				self.cur_item = 0
 
 		self.items[self.cur_item].set_italic(True)
 		self.items[self.cur_item].set_font_color(RED)
@@ -98,6 +105,7 @@ class MainMenu():
 			text = self.items[self.cur_item].text
 			self.funcs[text]()
 
+	"""
 	def set_mouse_selection(self, item, mpos):
 		if item.is_mouse_selection(mpos):
 			item.set_italic(True)
@@ -105,17 +113,19 @@ class MainMenu():
 		else:
 			item.set_italic(False)
 			item.set_font_color(WHITE)
+	"""
 
 	def sword_cursor(self):
-		""" because I suck at math, this sword_cursor currently only works with 4 menu items """
+		backX = 200
+		curs_dist = 41
 		if self.cur_item == 0:
-			self.screen.blit(SWORDCURSOR, (self.screen_width / 2 - 200, 258))
+			self.screen.blit(SWORDCURSOR, (self.screen_width / 2 - backX, self.screen_height / 2 - (self.t_h / 2)))
 		elif self.cur_item == 1:
-			self.screen.blit(SWORDCURSOR, (self.screen_width / 2 - 200, 301))
+			self.screen.blit(SWORDCURSOR, (self.screen_width / 2 - backX, self.screen_height / 2 - (self.t_h / 2) + curs_dist))
 		elif self.cur_item == 2:
-			self.screen.blit(SWORDCURSOR, (self.screen_width / 2 - 200, 301 + 44))
+			self.screen.blit(SWORDCURSOR, (self.screen_width / 2 - backX, self.screen_height / 2 - (self.t_h / 2) + curs_dist * 2))
 		elif self.cur_item == 3:
-			self.screen.blit(SWORDCURSOR, (self.screen_width / 2 - 200, 301 + 87))
+			self.screen.blit(SWORDCURSOR, (self.screen_width / 2 - backX, self.screen_height / 2 - (self.t_h / 2) + curs_dist * 3))
 
 	def menu_run(self):
 		running = True
@@ -129,16 +139,20 @@ class MainMenu():
 				if event.type == pygame.KEYDOWN:
 					self.mouse_is_visible = False
 					self.set_keyboard_selection(event.key)
+				"""
 				if event.type == pygame.MOUSEBUTTONDOWN:
 					for item in self.items:
 						if item.is_mouse_selection(mpos):
 							self.funcs[item.text]()
+				"""
 
+			"""
 			if pygame.mouse.get_rel() != (0, 0):
 				self.mouse_is_visible = True
 				self.cur_item = None
+			"""
 
-			self.set_mouse_visibility()
+			#self.set_mouse_visibility()
 
 			self.screen.fill(self.bg_color)
 			self.screen.blit(MENUBACKGROUND, (0, 0))
@@ -146,8 +160,8 @@ class MainMenu():
 				self.sword_cursor()
 
 			for item in self.items:
-				if self.mouse_is_visible:
-					self.set_mouse_selection(item, mpos)
+				#if self.mouse_is_visible:
+				#	self.set_mouse_selection(item, mpos)
 				self.screen.blit(item.label, item.position)
 
 			pygame.display.flip()

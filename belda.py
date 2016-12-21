@@ -37,6 +37,7 @@ class Game:
 
 	def new(self):
 		# Initialize the Game
+		pygame.key.set_repeat(1, 10)
 		pygame.mixer.music.stop()
 		pygame.mixer
 		self.all_sprites = pygame.sprite.Group()

@@ -10,7 +10,7 @@ class Player(pygame.sprite.Sprite):
 		self.groups = game.all_sprites
 		pygame.sprite.Sprite.__init__(self, self.groups)
 		self.game = game
-		self.image = pygame.Surface((28, 28), pygame.SRCALPHA)
+		self.image = pygame.Surface((64, 64), pygame.SRCALPHA)
 		self.rect = self.image.get_rect()
 		self.speed_x = 0
 		self.speed_y = 0
@@ -19,8 +19,7 @@ class Player(pygame.sprite.Sprite):
 		self.rect.x = x * TILESIZE
 		self.rect.y = y * TILESIZE
 
-		self.blabla = BeldaRoomClass()
-		self.current_room = self.blabla.current_room
+		self.current_room = self.game.current_room
 		self.nextRoom = False
 
 	def move(self, movex, movey):
@@ -75,7 +74,7 @@ class Player(pygame.sprite.Sprite):
 			self.nextRoom = True
 
 		if self.nextRoom == True:
-			#all_sprites.empty()
+			self.game.all_sprites.empty()
 			self.game.draw_map()
 			self.nextRoom = False
 
@@ -87,15 +86,10 @@ class Mountain(pygame.sprite.Sprite):
 		self.groups = game.all_sprites, game.walls
 		pygame.sprite.Sprite.__init__(self, self.groups)
 		self.game = game
-		self.mountain_var = random.randint(1, 4)
+		#once I get different mountains, change the random thingie to 1, #
+		self.mountain_var = random.randint(1, 1)
 		if self.mountain_var == 1:
 			self.image = MOUNTAIN1
-		elif self.mountain_var == 2:
-			self.image = MOUNTAIN2
-		elif self.mountain_var == 3:
-			self.image = MOUNTAIN3
-		elif self.mountain_var == 4:
-			self.image = MOUNTAIN4
 
 		self.rect = self.image.get_rect()
 		self.x = x
