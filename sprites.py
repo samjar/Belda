@@ -2,7 +2,6 @@
 import pygame
 import random
 from settings import *
-from beldarooms import *
 
 class Player(pygame.sprite.Sprite):
 	def __init__(self, game, x, y):
@@ -18,13 +17,13 @@ class Player(pygame.sprite.Sprite):
 		self.y = y
 		self.rect.x = x * TILESIZE
 		self.rect.y = y * TILESIZE
-
-		self.current_room = self.game.current_room
 		self.nextRoom = False
 
 	def move(self, movex, movey):
 		self.speed_x = movex
 		self.speed_y = movey
+		print(self.speed_x, self.speed_y)
+		print(self.game.current_room)
 
 	def collision_with_walls(self):
 		for wall in self.game.walls:
@@ -52,29 +51,31 @@ class Player(pygame.sprite.Sprite):
 		if self.rect.x < 0:
 			#switchroom on levellist x axis (-1)
 			#self.game.draw_map()
-			self.current_room -= 1
+			self.game.current_room -= 1
 			self.nextRoom = True
 			self.rect.x = WIDTH - TILESIZE
 		elif self.rect.x > WIDTH - TILESIZE:
 			#switchroom on levellist x axis (+1)
 			#self.game.draw_map()
-			self.current_room += 1
+			self.game.current_room += 1
 			self.nextRoom = True
-			self.rect.x = 0		
+			self.rect.x = 0
 		elif self.rect.y < 0:
 			#switchroom on levellist y axis (-1)
 			#self.game.draw_map()
-			self.current_room -= XMAPLENGTH
+			self.game.current_room -= XMAPLENGTH
 			self.nextRoom = True
 			self.rect.y = HEIGHT - TILESIZE
 		elif self.rect.y > HEIGHT - TILESIZE:
 			#switchroom on levellist y axis (+1)
 			#self.game.draw_map()
-			self.current_room += XMAPLENGTH
+			self.game.current_room += XMAPLENGTH
 			self.nextRoom = True
 
 		if self.nextRoom == True:
 			self.game.all_sprites.empty()
+			self.game.background_sprites.empty()
+			self.game.walls.empty()
 			self.game.draw_map()
 			self.nextRoom = False
 

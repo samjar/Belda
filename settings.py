@@ -20,10 +20,24 @@ GREY = (170, 170, 170)
 WALKRATE = 5 # how many pixels to move while walking per frame
 ANIMRATE = 0.15 # how many seconds each frame of player's walking animation lasts
 HEROSPRITEDOWN = pygame.image.load("images/sprites/player/player_down1.png")
+HEROSPRITEDOWN2 = pygame.image.load("images/sprites/player/player_down2.png")
+
 HEROSPRITEUP = pygame.image.load("images/sprites/player/player_up1.png") 
+HEROSPRITEUP2 = pygame.image.load("images/sprites/player/player_up2.png")
+
 HEROSPRITELEFT = pygame.image.load("images/sprites/player/player_left1.png")
+HEROSPRITELEFT2 = pygame.image.load("images/sprites/player/player_left2.png")
+
 HEROSPRITERIGHT = pygame.image.load("images/sprites/player/player_right1.png")
-CURHEROSPRITE = HEROSPRITEDOWN
+HEROSPRITERIGHT2 = pygame.image.load("images/sprites/player/player_right2.png")
+
+HERODOWNLIST = [HEROSPRITEDOWN, HEROSPRITEDOWN2]
+HEROUPLIST = [HEROSPRITEUP, HEROSPRITEUP2]
+HEROLEFTLIST = [HEROSPRITELEFT, HEROSPRITELEFT2]
+HERORIGHTLIST = [HEROSPRITERIGHT, HEROSPRITERIGHT2]
+
+CURHEROSPRITE = HERODOWNLIST[0]
+
 #PLAYERSPRITESHEET = pygame.image.load("player_sprite_sheet.png")
 
 # map properties

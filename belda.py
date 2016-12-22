@@ -27,6 +27,7 @@ class Game:
 		pygame.key.set_repeat(1, 150)
 		self.cur_hero_img = HEROSPRITEDOWN
 		self.beldaRooms = BeldaRoomClass()
+		self.current_room = self.beldaRooms.current_room
 
 	def quit(self):
 		pygame.quit()
@@ -43,6 +44,8 @@ class Game:
 		self.all_sprites = pygame.sprite.Group()
 		self.walls = pygame.sprite.Group()
 		self.background_sprites = pygame.sprite.Group()
+		self.player_sprite = pygame.sprite.Group()
+		self.alreadySpawned = False
 		self.draw_map()
 		self.run()
 		#self.current_room = 0
@@ -51,7 +54,6 @@ class Game:
 
 		x = y = 0
 
-		self.current_room = self.beldaRooms.current_room
 		self.room = self.beldaRooms.room_list[self.current_room]
 
 		# draw the map from map.txt
@@ -63,7 +65,10 @@ class Game:
 					Mountain(self, x, y)
 				if col == 'S':
 					Grass(self, x, y)
-					self.player = Player(self, x, y)
+					if self.alreadySpawned is False:
+						self.player = Player(self, x, y)
+						self.player_sprite.add(self.player)
+						self.alreadySpawned = True
 				x += 1
 			y += 1
 			x = 0
@@ -101,23 +106,16 @@ class Game:
 	def update(self):
 		# Game Loop - Update
 		self.all_sprites.update()
+		self.player_sprite.update()
 
 	def draw(self):
 		# Game Loop - Draw
 		self.screen.fill(BLACK)
 		self.background_sprites.draw(self.screen)
-		# self.draw_grid()
 		self.all_sprites.draw(self.screen)
 		self.screen.blit(self.cur_hero_img, (self.player.rect.x, self.player.rect.y))
 
 		pygame.display.update()
-
-	def draw_grid(self):
-		# Grid for tile testing purposes (just temporary)
-		for x in range(0, WIDTH, TILESIZE):
-			pygame.draw.line(self.screen, GREY, (x, 0), (x, HEIGHT))
-		for y in range(0, HEIGHT, TILESIZE):
-			pygame.draw.line(self.screen, GREY, (0, y), (WIDTH, y))
 
 	def start_screen(self):
 		funcs = {'New Game': self.new,
