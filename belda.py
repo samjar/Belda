@@ -63,6 +63,11 @@ class Game:
 					Grass(self, x, y)
 				if col == '1':
 					Mountain(self, x, y)
+				if col == 't':
+					Grass(self, x, y)
+					Tree(self, x, y)
+				if col == 'C':
+					CaveOpening(self, x, y)
 				if col == 'S':
 					Grass(self, x, y)
 					if self.alreadySpawned is False:

@@ -115,3 +115,28 @@ class Grass(pygame.sprite.Sprite):
 		self.y = y
 		self.rect.x = x * TILESIZE
 		self.rect.y = y * TILESIZE
+
+class Tree(pygame.sprite.Sprite):
+	def __init__(self, game, x, y):
+		self.groups = game.all_sprites, game.walls
+		pygame.sprite.Sprite.__init__(self, self.groups)
+		self.game = game
+		self.image = TREE1
+		self.rect = self.image.get_rect()
+		self.x = x
+		self.y = y
+		self.rect.x = x * TILESIZE
+		self.rect.y = y * TILESIZE
+
+class CaveOpening(pygame.sprite.Sprite):
+	def __init__(self, game, x, y):
+		self.groups = game.background_sprites
+		pygame.sprite.Sprite.__init__(self, self.groups)
+		self.game = game
+		self.image = CAVEOPENING1
+		self.rect = self.image.get_rect()
+		self.x = x
+		self.y = y
+		self.rect.x = x * TILESIZE
+		self.rect.y = y * TILESIZE
+
