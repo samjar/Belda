@@ -71,7 +71,7 @@ class Player(pygame.sprite.Sprite):
 			#self.game.draw_map()
 			self.game.current_room += XMAPLENGTH
 			self.nextRoom = True
-
+			self.rect.y = 0 
 		if self.nextRoom == True:
 			self.game.all_sprites.empty()
 			self.game.background_sprites.empty()
