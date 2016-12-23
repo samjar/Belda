@@ -26,20 +26,25 @@ class Player(pygame.sprite.Sprite):
 		print(self.game.current_room)
 
 	def collision_with_walls(self):
-		for wall in self.game.walls:
-			if pygame.sprite.collide_rect(self.game.player, wall):
-				if self.speed_x > 0:
-					print("right")
-					self.rect.right = wall.rect.left
-				if self.speed_x < 0:
-					print("left")
-					self.rect.left = wall.rect.right
-				if self.speed_y > 0:
-					print("down")
-					self.rect.bottom = wall.rect.top
-				if self.speed_y < 0:
-					print("up")
-					self.rect.top = wall.rect.bottom
+		key = pygame.key.get_pressed()
+		if key[pygame.K_w]:
+			print("Clipmode activated!")
+		if not key[pygame.K_w]:
+			for wall in self.game.walls:
+				if pygame.sprite.collide_rect(self.game.player, wall):
+					if self.speed_x > 0:
+						print("right")
+						self.rect.right = wall.rect.left
+					if self.speed_x < 0:
+						print("left")
+						self.rect.left = wall.rect.right
+					if self.speed_y > 0:
+						print("down")
+						self.rect.bottom = wall.rect.top
+					if self.speed_y < 0:
+						print("up")
+						self.rect.top = wall.rect.bottom
+
 
 	def update(self):
 		# update player movement

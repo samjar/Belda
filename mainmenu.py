@@ -70,15 +70,6 @@ class MainMenu():
 		self.items[self.cur_item].set_italic(True)
 		self.items[self.cur_item].set_font_color(RED)
 
-
-	"""
-	def set_mouse_visibility(self):
-		if self.mouse_is_visible == True:
-			pygame.mouse.set_visible(True)
-		else:
-			pygame.mouse.set_visible(False)
-	"""
-
 	def set_keyboard_selection(self, key):
 		for item in self.items:
 			item.set_italic(False)
@@ -105,16 +96,6 @@ class MainMenu():
 			text = self.items[self.cur_item].text
 			self.funcs[text]()
 
-	"""
-	def set_mouse_selection(self, item, mpos):
-		if item.is_mouse_selection(mpos):
-			item.set_italic(True)
-			item.set_font_color(RED)
-		else:
-			item.set_italic(False)
-			item.set_font_color(WHITE)
-	"""
-
 	def sword_cursor(self):
 		backX = 200
 		curs_dist = 41
@@ -137,22 +118,7 @@ class MainMenu():
 					running = False
 					sys.exit()
 				if event.type == pygame.KEYDOWN:
-					self.mouse_is_visible = False
 					self.set_keyboard_selection(event.key)
-				"""
-				if event.type == pygame.MOUSEBUTTONDOWN:
-					for item in self.items:
-						if item.is_mouse_selection(mpos):
-							self.funcs[item.text]()
-				"""
-
-			"""
-			if pygame.mouse.get_rel() != (0, 0):
-				self.mouse_is_visible = True
-				self.cur_item = None
-			"""
-
-			#self.set_mouse_visibility()
 
 			self.screen.fill(self.bg_color)
 			self.screen.blit(MENUBACKGROUND, (0, 0))
@@ -160,8 +126,6 @@ class MainMenu():
 				self.sword_cursor()
 
 			for item in self.items:
-				#if self.mouse_is_visible:
-				#	self.set_mouse_selection(item, mpos)
 				self.screen.blit(item.label, item.position)
 
 			pygame.display.flip()
