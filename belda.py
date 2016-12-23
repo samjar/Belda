@@ -73,16 +73,16 @@ class Game:
 					Tile(self, x, y, self.walls, TREE1)
 				if col == 'C':
 					Tile(self, x, y, self.background_sprites, CAVEOPENING1)
+				if col == 'c':
+					Tile(self, x, y, self.walls, CHEST1)
 				if col == 'w':
 					Tile(self, x, y, self.walls, WATER1)
 				if col == 'S':
 					if self.alreadySpawned is False:
-						Tile(self, x, y, self.background_sprites, START)
 						self.player = Player(self, x, y)
 						self.player_sprite.add(self.player)
 						self.alreadySpawned = True
-					else:
-						Tile(self, x, y, self.walls, MOUNTAIN1)
+					Tile(self, x, y, self.background_sprites, START)
 				x += 1
 			y += 1
 			x = 0

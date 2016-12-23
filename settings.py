@@ -65,6 +65,10 @@ START = pygame.image.load("images/tiles/start.png")
 # tree tiles
 TREE1 = pygame.image.load("images/tiles/tree1.png")
 
+# objects
+CHEST1 = pygame.image.load("images/tiles/chest1.png")
+
+
 # background & pictures
 MENUBACKGROUND = pygame.image.load("menubackground.png")
 
