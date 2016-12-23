@@ -1,15 +1,15 @@
-# Sprite classes
+# Player class
 import pygame
-import random
 from settings import *
 
 class Player(pygame.sprite.Sprite):
 	def __init__(self, game, x, y):
 		# initialize the player's attributes
-		self.groups = game.all_sprites
+		self.groups = game.player_sprite
 		pygame.sprite.Sprite.__init__(self, self.groups)
 		self.game = game
-		self.image = pygame.Surface((64, 64), pygame.SRCALPHA)
+		self.image = pygame.Surface((TILESIZE, TILESIZE), pygame.SRCALPHA)
+		self.image = pygame.transform.scale(self.image, (TILESIZE, TILESIZE))
 		self.rect = self.image.get_rect()
 		self.speed_x = 0
 		self.speed_y = 0
@@ -73,7 +73,6 @@ class Player(pygame.sprite.Sprite):
 			self.nextRoom = True
 			self.rect.y = 0 
 		if self.nextRoom == True:
-			self.game.all_sprites.empty()
 			self.game.background_sprites.empty()
 			self.game.walls.empty()
 			self.game.draw_map()
@@ -81,62 +80,3 @@ class Player(pygame.sprite.Sprite):
 
 		self.speed_x = 0
 		self.speed_y = 0
-
-class Mountain(pygame.sprite.Sprite):
-	def __init__(self, game, x, y):
-		self.groups = game.all_sprites, game.walls
-		pygame.sprite.Sprite.__init__(self, self.groups)
-		self.game = game
-		#once I get different mountains, change the random thingie to 1, #
-		self.mountain_var = random.randint(1, 1)
-		if self.mountain_var == 1:
-			self.image = MOUNTAIN1
-
-		self.rect = self.image.get_rect()
-		self.x = x
-		self.y = y
-		self.rect.x = x * TILESIZE
-		self.rect.y = y * TILESIZE
-
-class Grass(pygame.sprite.Sprite):
-	def __init__(self, game, x, y):
-		self.groups = game.background_sprites
-		pygame.sprite.Sprite.__init__(self, self.groups)
-		self.game = game
-		self.grass_var = random.randint(1, 10)
-		if self.grass_var == 1:
-			self.image = GRASS1
-		elif self.grass_var == 2:
-			self.image = GRASS2
-		elif self.grass_var >= 3:
-			self.image = GRASS3
-		self.rect = self.image.get_rect()
-		self.x = x
-		self.y = y
-		self.rect.x = x * TILESIZE
-		self.rect.y = y * TILESIZE
-
-class Tree(pygame.sprite.Sprite):
-	def __init__(self, game, x, y):
-		self.groups = game.all_sprites, game.walls
-		pygame.sprite.Sprite.__init__(self, self.groups)
-		self.game = game
-		self.image = TREE1
-		self.rect = self.image.get_rect()
-		self.x = x
-		self.y = y
-		self.rect.x = x * TILESIZE
-		self.rect.y = y * TILESIZE
-
-class CaveOpening(pygame.sprite.Sprite):
-	def __init__(self, game, x, y):
-		self.groups = game.background_sprites
-		pygame.sprite.Sprite.__init__(self, self.groups)
-		self.game = game
-		self.image = CAVEOPENING1
-		self.rect = self.image.get_rect()
-		self.x = x
-		self.y = y
-		self.rect.x = x * TILESIZE
-		self.rect.y = y * TILESIZE
-

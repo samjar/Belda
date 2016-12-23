@@ -5,10 +5,11 @@ import sys
 import os
 
 from os import path
-from sprites import *
+from player import *
 from settings import *
 from beldarooms import *
 from mainmenu import *
+from tiles import *
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
@@ -41,7 +42,6 @@ class Game:
 		pygame.key.set_repeat(1, 10)
 		pygame.mixer.music.stop()
 		pygame.mixer
-		self.all_sprites = pygame.sprite.Group()
 		self.walls = pygame.sprite.Group()
 		self.background_sprites = pygame.sprite.Group()
 		self.player_sprite = pygame.sprite.Group()
@@ -60,20 +60,29 @@ class Game:
 		for row in self.room:
 			for col in row:
 				if col == '.':
-					Grass(self, x, y)
+					Tile(self, x, y, self.background_sprites, GRASS3)
+				if col == "'":
+					Tile(self, x, y, self.background_sprites, GRASS1)
+				if col == ';':
+					Tile(self, x, y, self.background_sprites, GRASS2)
+				if col == ',':
+					Tile(self, x, y, self.background_sprites, GROUND1)
 				if col == '1':
-					Mountain(self, x, y)
+					Tile(self, x, y, self.walls, MOUNTAIN1)
 				if col == 't':
-					Grass(self, x, y)
-					Tree(self, x, y)
+					Tile(self, x, y, self.walls, TREE1)
 				if col == 'C':
-					CaveOpening(self, x, y)
+					Tile(self, x, y, self.background_sprites, CAVEOPENING1)
+				if col == 'w':
+					Tile(self, x, y, self.walls, WATER1)
 				if col == 'S':
-					Grass(self, x, y)
 					if self.alreadySpawned is False:
+						Tile(self, x, y, self.background_sprites, START)
 						self.player = Player(self, x, y)
 						self.player_sprite.add(self.player)
 						self.alreadySpawned = True
+					else:
+						Tile(self, x, y, self.walls, MOUNTAIN1)
 				x += 1
 			y += 1
 			x = 0
@@ -110,14 +119,16 @@ class Game:
 
 	def update(self):
 		# Game Loop - Update
-		self.all_sprites.update()
+		self.background_sprites.update()
+		self.walls.update()
 		self.player_sprite.update()
 
 	def draw(self):
 		# Game Loop - Draw
 		self.screen.fill(BLACK)
 		self.background_sprites.draw(self.screen)
-		self.all_sprites.draw(self.screen)
+		self.walls.draw(self.screen)
+		self.player_sprite.draw(self.screen)
 		self.screen.blit(self.cur_hero_img, (self.player.rect.x, self.player.rect.y))
 
 		pygame.display.update()

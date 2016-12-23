@@ -52,10 +52,15 @@ GRIDHEIGHT = HEIGHT / TILESIZE
 MOUNTAIN1 = pygame.image.load("images/tiles/mountain1.png")
 CAVEOPENING1 = pygame.image.load("images/tiles/caveopening1.png")
 
-# grass tiles
+# water tiles
+WATER1 = pygame.image.load("images/tiles/water1.png")
+
+# grass/ground/walking tiles
 GRASS1 = pygame.image.load("images/tiles/grass1.png")
 GRASS2 = pygame.image.load("images/tiles/grass2.png")
 GRASS3 = pygame.image.load("images/tiles/grass3.png")
+GROUND1 = pygame.image.load("images/tiles/ground1.png")
+START = pygame.image.load("images/tiles/start.png")
 
 # tree tiles
 TREE1 = pygame.image.load("images/tiles/tree1.png")
