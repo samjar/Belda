@@ -1,15 +1,19 @@
 # Player class
-from settings import *
+import pygame
+from pygame import sprite, Surface, transform, SRCALPHA
+from pygame.sprite import Sprite
+
+from settings import TILESIZE, WIDTH, HEIGHT, XMAPLENGTH
 
 
-class Player(pygame.sprite.Sprite):
+class Player(Sprite):
     def __init__(self, game, x, y):
         # initialize the player's attributes
         self.groups = game.player_sprite
-        pygame.sprite.Sprite.__init__(self, self.groups)
+        Sprite.__init__(self, self.groups)
         self.game = game
-        self.image = pygame.Surface((TILESIZE, TILESIZE), pygame.SRCALPHA)
-        self.image = pygame.transform.scale(self.image, (TILESIZE, TILESIZE))
+        self.image = Surface((TILESIZE, TILESIZE), SRCALPHA)
+        self.image = transform.scale(self.image, (TILESIZE, TILESIZE))
         self.rect = self.image.get_rect()
         self.speed_x = 0
         self.speed_y = 0
@@ -31,7 +35,7 @@ class Player(pygame.sprite.Sprite):
             print("Clipmode activated!")
         if not key[pygame.K_w]:
             for wall in self.game.walls:
-                if pygame.sprite.collide_rect(self.game.player, wall):
+                if sprite.collide_rect(self.game.player, wall):
                     if self.speed_x > 0:
                         print("right")
                         self.rect.right = wall.rect.left

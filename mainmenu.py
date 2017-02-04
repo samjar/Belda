@@ -1,13 +1,18 @@
 import os
 import sys
 
-from settings import *
+import pygame
+from pygame.font import Font
+from pygame.time import Clock
+
+from settings import (BLACK, RED, WHITE, SWORDCURSOR, MENUBACKGROUND, WIDTH,
+                      HEIGHT, TITLE)
 
 
-class MenuItem(pygame.font.Font):
-    def __init__(self, text, font="font/slkscr.ttf", font_size=50, font_color=WHITE,
-                 (pos_x, pos_y)=(0, 0)):
-        pygame.font.Font.__init__(self, font, font_size)
+class MenuItem(Font):
+    def __init__(self, text, font="font/slkscr.ttf", font_size=50,
+                 font_color=WHITE, (pos_x, pos_y)=(0, 0)):
+        Font.__init__(self, font, font_size)
         self.text = text
         self.font_size = font_size
         self.font_color = font_color
@@ -48,7 +53,7 @@ class MainMenu:
         self.screen_height = self.screen.get_rect().height
 
         self.bg_color = bg_color
-        self.clock = pygame.time.Clock()
+        self.clock = Clock()
 
         self.funcs = funcs
         self.items = []
@@ -79,17 +84,13 @@ class MainMenu:
             item.set_font_color(WHITE)
 
         # Find the chosen item
-        if key == pygame.K_UP and \
-                        self.cur_item > 0:
+        if key == pygame.K_UP and self.cur_item > 0:
             self.cur_item -= 1
-        elif key == pygame.K_UP and \
-                        self.cur_item == 0:
+        elif key == pygame.K_UP and self.cur_item == 0:
             self.cur_item = len(self.items) - 1
-        elif key == pygame.K_DOWN and \
-                        self.cur_item < len(self.items) - 1:
+        elif key == pygame.K_DOWN and self.cur_item < len(self.items) - 1:
             self.cur_item += 1
-        elif key == pygame.K_DOWN and \
-                        self.cur_item == len(self.items) - 1:
+        elif key == pygame.K_DOWN and self.cur_item == len(self.items) - 1:
             self.cur_item = 0
 
         self.items[self.cur_item].set_italic(True)
@@ -100,33 +101,30 @@ class MainMenu:
             self.funcs[text]()
 
     def sword_cursor(self):
-        backX = 200
+        back_x = 200
         curs_dist = 41
         if self.cur_item == 0:
-            self.screen.blit(SWORDCURSOR, (self.screen_width / 2 - backX,
+            self.screen.blit(SWORDCURSOR, (self.screen_width / 2 - back_x,
                                            self.screen_height / 2 - (
                                                self.t_h / 2)))
         elif self.cur_item == 1:
-            self.screen.blit(SWORDCURSOR, (self.screen_width / 2 - backX,
+            self.screen.blit(SWORDCURSOR, (self.screen_width / 2 - back_x,
                                            self.screen_height / 2 - (
                                                self.t_h / 2) + curs_dist))
         elif self.cur_item == 2:
-            self.screen.blit(SWORDCURSOR, (self.screen_width / 2 - backX,
+            self.screen.blit(SWORDCURSOR, (self.screen_width / 2 - back_x,
                                            self.screen_height / 2 - (
                                                self.t_h / 2) + curs_dist * 2))
         elif self.cur_item == 3:
-            self.screen.blit(SWORDCURSOR, (self.screen_width / 2 - backX,
+            self.screen.blit(SWORDCURSOR, (self.screen_width / 2 - back_x,
                                            self.screen_height / 2 - (
                                                self.t_h / 2) + curs_dist * 3))
 
     def menu_run(self):
-        running = True
-        while running:
+        while True:
             self.clock.tick(20)
-            mpos = pygame.mouse.get_pos()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    running = False
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
                     self.set_keyboard_selection(event.key)
@@ -153,10 +151,6 @@ if __name__ == "__main__":
 
     def testing():
         pass
-
-
-    def quit():
-        sys.exit()
 
 
     def options():

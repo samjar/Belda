@@ -1,7 +1,17 @@
-from beldarooms import *
-from mainmenu import *
-from player import *
-from tiles import *
+import os
+import sys
+
+import pygame
+from pygame import mixer, display
+
+from beldarooms import BeldaRoomClass
+from mainmenu import MainMenu
+from player import Player
+from settings import (WIDTH, HEIGHT, TITLE, HEROSPRITEDOWN, GRASS1, GRASS2,
+                      GRASS3, GROUND1, MOUNTAIN1, TREE1, CAVEOPENING1, CHEST1,
+                      WATER1, START, FPS, WALKRATE, HEROSPRITELEFT,
+                      HEROSPRITERIGHT, HEROSPRITEUP, BLACK)
+from tiles import Tile
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
@@ -10,20 +20,28 @@ class Game:
     def __init__(self):
         # initialize the program - not the game
         pygame.init()
-        pygame.mixer.pre_init(44100, -16, 1, 512)
-        pygame.mixer.music.load("sound/Come_and_Find_Me.ogg")
-        pygame.mixer.music.set_volume(0.5)
-        pygame.mixer.music.play(1)
-        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
-        pygame.display.set_caption(TITLE)
+        mixer.pre_init(44100, -16, 1, 512)
+        mixer.music.load("sound/Come_and_Find_Me.ogg")
+        mixer.music.set_volume(0.5)
+        mixer.music.play(1)
+        self.screen = display.set_mode((WIDTH, HEIGHT))
+        display.set_caption(TITLE)
         self.clock = pygame.time.Clock()
         self.running = True
         pygame.key.set_repeat(1, 150)
         self.cur_hero_img = HEROSPRITEDOWN
-        self.beldaRooms = BeldaRoomClass()
-        self.current_room = self.beldaRooms.current_room
+        self.belda_rooms = BeldaRoomClass()
+        self.current_room = self.belda_rooms.current_room
+        self.walls = None
+        self.background_sprites = None
+        self.player_sprite = None
+        self.already_spawned = False
+        self.room = None
+        self.playing = False
+        self.player = None
 
-    def quit(self):
+    @staticmethod
+    def quit():
         pygame.quit()
         sys.exit()
 
@@ -34,11 +52,10 @@ class Game:
         # Initialize the Game
         pygame.key.set_repeat(1, 10)
         pygame.mixer.music.stop()
-        pygame.mixer
         self.walls = pygame.sprite.Group()
         self.background_sprites = pygame.sprite.Group()
         self.player_sprite = pygame.sprite.Group()
-        self.alreadySpawned = False
+        self.already_spawned = False
         self.draw_map()
         self.run()
         # self.current_room = 0
@@ -47,7 +64,7 @@ class Game:
 
         x = y = 0
 
-        self.room = self.beldaRooms.room_list[self.current_room]
+        self.room = self.belda_rooms.room_list[self.current_room]
 
         # draw the map from map.txt
         for row in self.room:
@@ -71,10 +88,10 @@ class Game:
                 if col == 'w':
                     Tile(self, x, y, self.walls, WATER1)
                 if col == 'S':
-                    if self.alreadySpawned is False:
+                    if self.already_spawned is False:
                         self.player = Player(self, x, y)
                         self.player_sprite.add(self.player)
-                        self.alreadySpawned = True
+                        self.already_spawned = True
                     Tile(self, x, y, self.background_sprites, START)
                 x += 1
             y += 1

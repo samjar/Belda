@@ -1,14 +1,17 @@
 # Mob class
-from settings import *
+from pygame import Surface, SRCALPHA, transform, sprite
+from pygame.sprite import Sprite
+
+from settings import TILESIZE
 
 
-class Mob(pygame.sprite.Sprite):
+class Mob(Sprite):
     def __init__(self, game, x, y):
         self.groups = game.mob_sprites
-        pygame.sprite.Sprite.__init__(self, self.groups)
+        Sprite.__init__(self, self.groups)
         self.game = game
-        self.image = pygame.Surface((16, 16), pygame.SRCALPHA)
-        self.image = pygame.transform.scale(self.image, (TILESIZE, TILESIZE))
+        self.image = Surface((16, 16), SRCALPHA)
+        self.image = transform.scale(self.image, (TILESIZE, TILESIZE))
         self.rect = self.image.get_rect()
         self.speed_x = 0
         self.speed_y = 0
@@ -23,7 +26,7 @@ class Mob(pygame.sprite.Sprite):
 
     def collision_with_walls(self):
         for wall in self.game.walls:
-            if pygame.sprite.collide_rect(self.game.mob, wall):
+            if sprite.collide_rect(self.game.mob, wall):
                 if self.speed_x > 0:
                     print("right")
                     self.rect.right = wall.rect.left
