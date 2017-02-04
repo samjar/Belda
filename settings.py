@@ -17,12 +17,12 @@ BROWN = (139, 69, 19)
 GREY = (170, 170, 170)
 
 # player properties
-WALKRATE = 8 # how many pixels to move while walking per frame
-ANIMRATE = 0.15 # how many seconds each frame of player's walking animation lasts
+WALKRATE = 8  # how many pixels to move while walking per frame
+ANIMRATE = 0.15  # how many seconds each frame of player's walking animation lasts
 HEROSPRITEDOWN = pygame.image.load("images/sprites/player/player_down1.png")
 HEROSPRITEDOWN2 = pygame.image.load("images/sprites/player/player_down2.png")
 
-HEROSPRITEUP = pygame.image.load("images/sprites/player/player_up1.png") 
+HEROSPRITEUP = pygame.image.load("images/sprites/player/player_up1.png")
 HEROSPRITEUP2 = pygame.image.load("images/sprites/player/player_up2.png")
 
 HEROSPRITELEFT = pygame.image.load("images/sprites/player/player_left1.png")
@@ -38,13 +38,13 @@ HERORIGHTLIST = [HEROSPRITERIGHT, HEROSPRITERIGHT2]
 
 CURHEROSPRITE = HERODOWNLIST[0]
 
-#PLAYERSPRITESHEET = pygame.image.load("player_sprite_sheet.png")
+# PLAYERSPRITESHEET = pygame.image.load("player_sprite_sheet.png")
 
 # map properties
 XMAPLENGTH = 10
 
 # tile properties
-TILESIZE = 64 
+TILESIZE = 64
 GRIDWIDTH = WIDTH / TILESIZE
 GRIDHEIGHT = HEIGHT / TILESIZE
 
@@ -68,10 +68,8 @@ TREE1 = pygame.image.load("images/tiles/tree1.png")
 # objects
 CHEST1 = pygame.image.load("images/tiles/chest1.png")
 
-
 # background & pictures
 MENUBACKGROUND = pygame.image.load("menubackground.png")
 
 # items, icons and cursors
 SWORDCURSOR = pygame.image.load("images/icons/sword_cursor.png")
-
