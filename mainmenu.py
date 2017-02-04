@@ -5,7 +5,7 @@ from settings import *
 
 
 class MenuItem(pygame.font.Font):
-    def __init__(self, text, font="slkscr.ttf", font_size=50, font_color=WHITE,
+    def __init__(self, text, font="font/slkscr.ttf", font_size=50, font_color=WHITE,
                  (pos_x, pos_y)=(0, 0)):
         pygame.font.Font.__init__(self, font, font_size)
         self.text = text
@@ -39,7 +39,8 @@ class MenuItem(pygame.font.Font):
 
 
 class MainMenu:
-    def __init__(self, screen, items, funcs, bg_color=BLACK, font="slkscr.ttf",
+    def __init__(self, screen, items, funcs, bg_color=BLACK,
+                 font="font/slkscr.ttf",
                  font_size=40,
                  font_color=WHITE):
         self.screen = screen

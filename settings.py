@@ -69,7 +69,7 @@ TREE1 = pygame.image.load("images/tiles/tree1.png")
 CHEST1 = pygame.image.load("images/tiles/chest1.png")
 
 # background & pictures
-MENUBACKGROUND = pygame.image.load("menubackground.png")
+MENUBACKGROUND = pygame.image.load("images/menubackground.png")
 
 # items, icons and cursors
 SWORDCURSOR = pygame.image.load("images/icons/sword_cursor.png")

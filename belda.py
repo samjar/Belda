@@ -11,7 +11,7 @@ class Game:
         # initialize the program - not the game
         pygame.init()
         pygame.mixer.pre_init(44100, -16, 1, 512)
-        pygame.mixer.music.load("Come_and_Find_Me.ogg")
+        pygame.mixer.music.load("sound/Come_and_Find_Me.ogg")
         pygame.mixer.music.set_volume(0.5)
         pygame.mixer.music.play(1)
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
