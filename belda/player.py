@@ -9,8 +9,7 @@ from settings import TILESIZE, WIDTH, HEIGHT, XMAPLENGTH, HEROSPRITEUP, HEROSPRI
 class Player(Sprite):
     def __init__(self, game, x, y):
         # initialize the player's attributes
-        self.groups = game.player_sprite
-        Sprite.__init__(self, self.groups)
+        Sprite.__init__(self, game.player_group)
         self.game = game
         self.image = HEROSPRITEDOWN
         self.image = transform.scale(self.image, (TILESIZE, TILESIZE))
@@ -36,13 +35,13 @@ class Player(Sprite):
     def try_move(self, x, y):
         if x != 0:
             self.rect.x += x
-            if self.collides(self.game.current_room.wall_group):
+            if self.collides(self.game.map.get_walls(self.game.current_room)):
                 self.rect.x -= x
                 return False
 
         if y != 0:
             self.rect.y += y
-            if self.collides(self.game.current_room.wall_group):
+            if self.collides(self.game.map.get_walls(self.game.current_room)):
                 self.rect.y -= y
                 return False
 
@@ -56,22 +55,22 @@ class Player(Sprite):
         if self.rect.x < 0:
             # switchroom on levellist x axis (-1)
             # self.game.draw_map()
-            self.game.set_room(self.game.current_room_index - 1)
+            self.game.advance_room_horizontally(True)
             self.rect.x = WIDTH - TILESIZE
         elif self.rect.x > WIDTH - TILESIZE:
             # switchroom on levellist x axis (+1)
             # self.game.draw_map()
-            self.game.set_room(self.game.current_room_index + 1)
+            self.game.advance_room_horizontally(False)
             self.rect.x = 0
         elif self.rect.y < 0:
             # switchroom on levellist y axis (-1)
             # self.game.draw_map()
-            self.game.set_room(self.game.current_room_index - XMAPLENGTH)
+            self.game.advance_room_vertically(True)
             self.rect.y = HEIGHT - TILESIZE
         elif self.rect.y > HEIGHT - TILESIZE:
             # switchroom on levellist y axis (+1)
             # self.game.draw_map()
-            self.game.set_room(self.game.current_room_index + XMAPLENGTH)
+            self.game.advance_room_vertically(False)
             self.rect.y = 0
 
         # determine sprite direction based on our current speed_x/y

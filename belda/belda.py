@@ -3,16 +3,16 @@ import os
 import sys
 
 import pygame
+import pytmx
 from pygame import mixer, display
 
-from beldarooms import room_list
 from mainmenu import MainMenu
 from player import Player
-from room import Room
 from settings import (WIDTH, HEIGHT, TITLE, HEROSPRITEDOWN, FPS, WALKRATE,
                       BLACK)
+from map import BeldaMap
 
-log = logging.Logger(__name__)
+log = logging.getLogger(__name__)
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
@@ -28,18 +28,13 @@ class Game:
         self.screen = display.set_mode((WIDTH, HEIGHT))
         display.set_caption(TITLE)
         self.clock = pygame.time.Clock()
-        self.running = True
         pygame.key.set_repeat(1, 150)
         self.walls = None
-        self.background_sprites = None
-        self.player_sprite = None
-        self.room = None
+        self.player_group = None
         self.running = False
         self.player = None
-        self.current_room = None
-        self.current_room_index = 0
-        self.current_room_initialized = False
-        self.rooms = {}
+        self.current_room = (0, 0)
+        self.map = None
 
     @staticmethod
     def quit():
@@ -53,34 +48,29 @@ class Game:
         # Initialize the Game
         pygame.key.set_repeat(1, 10)
         pygame.mixer.music.stop()
-        self.player_sprite = pygame.sprite.Group()
+        self.player_group = pygame.sprite.Group()
+        self.map = BeldaMap("map/belda.tmx")
         self.run()
 
-    def set_room(self, room_index):
-        # this access with raise IndexError if the room doesn't exist
-        room_list[room_index]
-        self.current_room_index = room_index
-        self.current_room_initialized = False
+    def advance_room_horizontally(self, left):
+        if left:
+            self.current_room = (self.current_room[0] - 1, self.current_room[1])
+        else:
+            self.current_room = (self.current_room[0] + 1, self.current_room[1])
+
+    def advance_room_vertically(self, up):
+        if up:
+            self.current_room = (self.current_room[0], self.current_room[1] - 1)
+        else:
+            self.current_room = (self.current_room[0], self.current_room[1] + 1)
 
     def init_map(self):
-        if self.current_room_initialized:
-            # the current room is already initialized
-            return
-
-        if self.current_room_index in self.rooms:
-            # room was loaded previously, reuse it
-            self.current_room = self.rooms[self.current_room_index]
-            return
-
-        # load the room
-        self.current_room = Room(room_list[self.current_room_index])
-        pp = self.current_room.get_player_position()
-        if pp is not None and self.player is None:
-            self.player = Player(self, pp[0], pp[1])
-            self.player_sprite.add(self.player)
-
-        self.rooms[self.current_room_index] = self.current_room
-        self.current_room_initialized = True
+        world_pos = self.map.get_player_position()
+        room_pos = self.map.get_player_room_position()
+        self.player = Player(self, room_pos[0], room_pos[1])
+        self.player_group.add(self.player)
+        self.current_room = self.map.get_room(*world_pos)
+        pass
 
     def run(self):
         # Game Loop
@@ -118,15 +108,14 @@ class Game:
 
     def update(self):
         # Game Loop - Update
-        self.init_map()
-        self.current_room.update()
-        self.player_sprite.update()
+        self.player_group.update()
 
     def draw(self):
         # Game Loop - Draw
         self.screen.fill(BLACK)
-        self.current_room.draw(self.screen)
-        self.player_sprite.draw(self.screen)
+        # TODO draw map
+        self.map.draw(self.screen, self.current_room)
+        self.player_group.draw(self.screen)
 
         pygame.display.update()
 
