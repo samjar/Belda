@@ -109,7 +109,7 @@ class Game:
     def update(self):
         # Game Loop - Update
         self.player_group.update()
-
+        
     def draw(self):
         # Game Loop - Draw
         self.screen.fill(BLACK)
